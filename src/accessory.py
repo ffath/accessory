@@ -104,58 +104,15 @@ def send_hid_event(dev, keys):
         data_or_wLength=array.array('B', [0x03, keys, 0x00, 0x00]))
 
 
-def play(dev):
-    print "PLAY"
-    send_hid_event(dev=dev, keys=KEY_PLAY_PAUSE)
-    send_hid_event(dev=dev, keys=KEY_NONE)
-
-
-def next(dev):
-    print "NEXT"
-    send_hid_event(dev=dev, keys=KEY_NEXT)
-    send_hid_event(dev=dev, keys=KEY_NONE)
-
-
-def prev(dev):
-    print "PREV"
-    send_hid_event(dev=dev, keys=KEY_PREV)
-    send_hid_event(dev=dev, keys=KEY_NONE)
-
-
-def mute(dev):
-    print "MUTE"
-    send_hid_event(dev=dev, keys=KEY_MUTE)
-    send_hid_event(dev=dev, keys=KEY_NONE)
-
-
-def vol_inc(dev):
-    print "VOL+"
-    send_hid_event(dev=dev, keys=KEY_VOL_INC)
-    send_hid_event(dev=dev, keys=KEY_NONE)
-
-
-def vol_dec(dev):
-    print "VOL-"
-    send_hid_event(dev=dev, keys=KEY_VOL_DEC)
-    send_hid_event(dev=dev, keys=KEY_NONE)
-
-
-def eject(dev):
-    print "EJECT"
-    send_hid_event(dev=dev, keys=KEY_EJECT)
-    send_hid_event(dev=dev, keys=KEY_NONE)
-
-
 def handle_accessory(idVendor, idProduct):
     action = {
-        "play": play,
-        "next": next,
-        "prev": prev,
-        "mute": mute,
-        "vol+": vol_inc,
-        "vol-": vol_dec,
-        "eject": eject,
-        "quit": quit,
+        "play": KEY_PLAY_PAUSE,
+        "next": KEY_NEXT,
+        "prev": KEY_PREV,
+        "mute": KEY_MUTE,
+        "vol+": KEY_VOL_INC,
+        "vol-": KEY_VOL_DEC,
+        "eject": KEY_EJECT,
     }
 
     # find device
@@ -181,11 +138,12 @@ def handle_accessory(idVendor, idProduct):
     # process actions
     while True:
         try:
-            action[raw_input("> ")](dev)
+            send_hid_event(dev=dev, keys=action[raw_input("> ")])
+            send_hid_event(dev=dev, keys=KEY_NONE)
         except KeyError:
             print "unknown action"
         except EOFError:
-            print "empty action"
+            print "EOFError"
 
 
 if __name__ == "__main__":
