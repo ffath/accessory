@@ -5,6 +5,13 @@ import os
 import usb
 import sys
 
+# Documentation
+'''
+https://source.android.com/devices/accessories/aoa2
+http://www.usb.org/developers/hidpage/HID1_11.pdf
+http://www.usbmadesimple.co.uk/ums_5.htm
+http://www.usb.org/developers/hidpage/Hut1_12v2.pdf
+'''
 
 # HID constants
 HID_ID = 123        # Accessory ID
